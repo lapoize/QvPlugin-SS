@@ -1,3 +1,5 @@
+[![Build QvSS Plugin no AVX - cmake](https://github.com/lapoize/QvPlugin-SS-NOAVX/actions/workflows/build-qsssimpleplugin-no-avx.yml/badge.svg)](https://github.com/lapoize/QvPlugin-SS-NOAVX/actions/workflows/build-qsssimpleplugin-no-avx.yml)
+
 # QvPlugin-SS-NOAVX
 
 

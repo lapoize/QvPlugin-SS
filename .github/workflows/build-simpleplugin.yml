@@ -9,7 +9,6 @@ jobs:
   build:
     strategy:
       matrix:
-        qt_version: [5.11.3]
         platform: [ubuntu-16.04, macos-latest, windows-latest]
         arch: [x86, x64]
         include: 
@@ -62,9 +61,8 @@ jobs:
           path: ../Qt
           key: QtCache-${{ matrix.platform }}-${{ matrix.arch }}-${{ matrix.qt_version }}-${{ matrix.qtarch }}
       - name: Installing Qt - ${{ matrix.arch }}
-        uses: jurplel/install-qt-action@v2.5.3
+        uses: jurplel/install-qt-action@v2
         with:
-          version: ${{ matrix.qt_version }}
           arch: ${{ matrix.qtarch }}
           cached: ${{ steps.cache-qt.outputs.cache-hit }}
       - name: Linux - ${{ matrix.qt_version }} - Build preparation - Install Packages 

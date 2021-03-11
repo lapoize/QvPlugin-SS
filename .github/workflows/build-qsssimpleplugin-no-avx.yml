@@ -105,7 +105,7 @@ jobs:
           name: ${{ steps.get_name.outputs.NAME }}-${{ github.sha }}.Windows-${{ matrix.arch }}.qt${{ matrix.qt_version }}.dll
           path: build/Release/${{ steps.get_name.outputs.NAME }}.dll
       - name: Win-${{ matrix.arch }} - ${{ matrix.qt_version }} - Upload binaries to release
-        uses: svenstaro/upload-release-action@v1-release
+        uses: svenstaro/upload-release-action@v2
         if: github.event_name == 'release' && matrix.platform == 'windows-latest'
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
@@ -121,7 +121,7 @@ jobs:
           name: ${{ steps.get_name.outputs.NAME }}-${{ github.sha }}.macOS-${{ matrix.arch }}.qt${{ matrix.qt_version }}.so
           path: build/lib${{ steps.get_name.outputs.NAME }}.so
       - name: macOS - ${{ matrix.qt_version }} - Upload binaries to release
-        uses: svenstaro/upload-release-action@v1-release
+        uses: svenstaro/upload-release-action@v2
         if: github.event_name == 'release' && matrix.platform == 'macos-latest'
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
@@ -137,7 +137,7 @@ jobs:
           name: ${{ steps.get_name.outputs.NAME }}-${{ github.sha }}.linux-${{ matrix.arch }}.qt${{ matrix.qt_version }}.so
           path: build/lib${{ steps.get_name.outputs.NAME }}.so
       - name: Linux - ${{ matrix.qt_version }} - Upload binaries to release
-        uses: svenstaro/upload-release-action@v1-release
+        uses: svenstaro/upload-release-action@v2
         if: github.event_name == 'release' && matrix.platform == 'ubuntu-16.04'
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}

@@ -72,7 +72,7 @@ jobs:
         run: |
           mkdir build
           cd build
-          cmake .. -DCMAKE_BUILD_TYPE=Release -A ${{ matrix.cmakearch }} -DVCPKG_TARGET_TRIPLET=${{ matrix.arch }}-windows-static -DHAVE_AVX512FINTRIN_H=0 -DHAVE_AVXINTRIN_H=0 -DHAVE_AVX2INTRIN_H=0 -DHAVE_AVX_ASM=0
+          cmake .. -DCMAKE_BUILD_TYPE=Release -A x64 -DVCPKG_TARGET_TRIPLET=${{ matrix.arch }}-windows-static -DHAVE_AVX512FINTRIN_H=0 -DHAVE_AVXINTRIN_H=0 -DHAVE_AVX2INTRIN_H=0 -DHAVE_AVX_ASM=0
           cmake --build . --parallel $(nproc) --config Release
 # --------------------------------------------------------
       - name: macOS - ${{ matrix.qt_version }} - Generate Dependencies and Build

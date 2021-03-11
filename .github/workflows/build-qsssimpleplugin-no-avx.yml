@@ -9,23 +9,8 @@ jobs:
   build:
     strategy:
       matrix:
-        qt_version: [5.11.3]
         platform: [ubuntu-16.04, macos-latest, windows-latest]
-        arch: [x86, x64]
-        include: 
-          - platform: windows-latest
-            arch: x86
-            qtarch: win32_msvc2015
-            cmakearch: Win32
-          - platform: windows-latest
-            arch: x64
-            qtarch: win64_msvc2015_64
-            cmakearch: x64
-        exclude:
-          - platform: ubuntu-16.04
-            arch: x86
-          - platform: macos-latest
-            arch: x86
+        arch: [x64]
       fail-fast: false
         
     runs-on: ${{ matrix.platform }}
@@ -62,9 +47,8 @@ jobs:
           path: ../Qt
           key: QtCache-${{ matrix.platform }}-${{ matrix.arch }}-${{ matrix.qt_version }}-${{ matrix.qtarch }}
       - name: Installing Qt - ${{ matrix.arch }}
-        uses: jurplel/install-qt-action@v2.5.3
+        uses: jurplel/install-qt-action@v2
         with:
-          version: ${{ matrix.qt_version }}
           arch: ${{ matrix.qtarch }}
           cached: ${{ steps.cache-qt.outputs.cache-hit }}
       - name: Linux - ${{ matrix.qt_version }} - Build preparation - Install Packages 
@@ -88,7 +72,7 @@ jobs:
         run: |
           mkdir build
           cd build
-          cmake .. -DCMAKE_BUILD_TYPE=Release -A ${{ matrix.cmakearch }} 
+          cmake .. -DCMAKE_BUILD_TYPE=Release -A ${{ matrix.cmakearch }} -DVCPKG_TARGET_TRIPLET=${{ matrix.arch }}-windows-static -DHAVE_AVX512FINTRIN_H=0 -DHAVE_AVXINTRIN_H=0 -DHAVE_AVX2INTRIN_H=0 -DHAVE_AVX_ASM=0
           cmake --build . --parallel $(nproc) --config Release
 # --------------------------------------------------------
       - name: macOS - ${{ matrix.qt_version }} - Generate Dependencies and Build
@@ -98,7 +82,7 @@ jobs:
           sudo xcode-select -s "/Applications/Xcode_10.3.app"
           mkdir build
           cd build
-          cmake .. -DCMAKE_BUILD_TYPE=Release  -DMACOSX_DEPLOYMENT_TARGET=10.13 
+          cmake .. -DCMAKE_BUILD_TYPE=Release  -DMACOSX_DEPLOYMENT_TARGET=10.13  -DHAVE_AVX512FINTRIN_H=0 -DHAVE_AVXINTRIN_H=0 -DHAVE_AVX2INTRIN_H=0 -DHAVE_AVX_ASM=0
           cmake --build . --parallel $(sysctl -n hw.logicalcpu)
 # --------------------------------------------------------
       - name: Linux - ${{ matrix.qt_version }} - Generate Dependencies and Build
@@ -111,7 +95,7 @@ jobs:
         run: |
           mkdir build
           cd build
-          cmake .. -DCMAKE_BUILD_TYPE=Release
+          cmake .. -DCMAKE_BUILD_TYPE=Release  -DHAVE_AVX512FINTRIN_H=0 -DHAVE_AVXINTRIN_H=0 -DHAVE_AVX2INTRIN_H=0 -DHAVE_AVX_ASM=0
           cmake --build . --parallel $(nproc)
 # ========================================================================================================= Deployments
       - name: Win-${{ matrix.arch }} - ${{ matrix.qt_version }} - Uploading artifact
